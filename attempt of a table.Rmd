@@ -1,0 +1,30 @@
+---
+title: "Untitled"
+author: "N. Alvarado"
+date: "30 de octubre de 2015"
+output: html_document
+---
+Coefficients for Models 1 and 2
+```{r, results= "asis", echo=FALSE, message=FALSE}
+library(plm)
+library(stargazer)
+data("Wages")
+M1 <- lm(lwage ~ ed, data = Wages)
+M2 <- lm(lwage ~ ed + exp, data = Wages)
+stargazer::stargazer(M1, M2, title='OLS regression of the Percentage of Wages Variation', type= 'html', digits=2, header = FALSE)
+
+```
+Plot 1
+```{r, echo=FALSE}
+fitted <- with(Admission,
+               data.frame(ed = mean(ed),
+                          exp = mean(exp),
+                          lwage = factor(0.1:0.9)))
+library(ggplot2)
+ggplot(data = Wages, aes(x = ed, y = lwage)) + geom_point()
+```
+Plot 2
+```{r, echo=FALSE}
+
+```
+

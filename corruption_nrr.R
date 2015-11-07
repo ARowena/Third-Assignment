@@ -1,5 +1,10 @@
+# Install packages
+install.packages("httr","dplyr","xlsx","rio","stargazer","Zelig","repmis","plm","tidyr")
+
 # Find working directory
 getwd()
+# try(setwd("C:/Users/Natalia etc"), silent = TRUE)
+try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
 # Set root as working directory
 setwd('/')
@@ -12,6 +17,7 @@ library(rio)
 library(stargazer)
 library(Zelig)
 library(repmis)
+library(plm)
 library(tidyr)
 
 # Loading dataset of Control of Corruption - the World Bank

@@ -23,9 +23,9 @@ controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, c
 unlink(temp)
 
 # Cleaning the data
-controlc %>% arrange()
-rownames()
-controlc2 <- gather(controlc, "Estimate", "Std. Error", NumSrc, Rank, Lower, Upper, 1996:2014)
+row.names(2)
+
+gather(controlc, estimate, std.error, numsrc, rank, lower, upper, 1996:2014)
 
 
 

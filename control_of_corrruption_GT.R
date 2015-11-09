@@ -1,7 +1,7 @@
 
 # Find working directory
 getwd()
-# try(setwd("C:/Users/Natalia etc"), silent = TRUE)
+try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
 # Set root as working directory
@@ -17,6 +17,7 @@ library(Zelig)
 library(repmis)
 library(plm)
 library(tidyr)
+library(countrycode)
 
 # Loading dataset of Control of Corruption - the World Bank's Governance Indicators
 
@@ -27,15 +28,6 @@ controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, c
 unlink(temp)
 
 # Cleaning the data of Control of Corruption
-
-# Changing the order of rows 1 and 2 
-controlc <- rbind(controlc[c(2,1),], controlc[-c(1,2),])
-row.names(controlc) <- NULL
-
-# Setting the new row 1 as header
-names(controlc) = as.character(unlist(controlc[1,]))
-controlc = controlc[-1,] 
-row.names(controlc) <- NULL
 
 # Keeping only neccesary variables
 cc <- controlc[c(1, 2, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
@@ -53,13 +45,11 @@ cc <- gather(cc, Year, Estimate, 3:18)
 cc <- cc[order(cc$Country, cc$Year), ]
 row.names(cc) <- NULL
 
-cc <- gather(controlc, Country/Territory, WBCode, Estimate, StdErr, NumSrc, Rank, Lower, Upper, 1996:2014)
+# Creating ID for each observation and matching coutry codes
+cc <- mutate(cc, ID = rownames(cc))
+countrycode(cc$Country, "country.name","iso2c")
+countrycode(cc$Country, "wb","iso2c")
 
-
-
-
-
-names(controlc) <- c("Country", "WBCode", "Estimate", "Std. Error", "NumSrc", "Rank", "Lower", "Upper")
 
 # World Bank Dataset
 data("XXXXXX")

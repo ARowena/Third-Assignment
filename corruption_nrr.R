@@ -23,9 +23,28 @@ controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, c
 unlink(temp)
 
 # Cleaning the data
-row.names(2)
 
-gather(controlc, estimate, std.error, numsrc, rank, lower, upper, 1996:2014)
+# Changing the order of rows 1 and 2 
+controlc <- rbind(controlc[c(2,1),], controlc[-c(1,2),])
+row.names(controlc) <- NULL
+
+# Setting the new row 1 as header
+names(controlc) = as.character(unlist(controlc[1,]))
+controlc = controlc[-1,] 
+row.names(controlc) <- NULL
+
+# Drop all unnecesary variables
+controlc$StdErr <- NULL
+controlc$NumSrc <- NULL
+controlc$Lower <- NULL
+controlc$Upper <- NULL
+
+# Setting the years as an observation 
+contc <- cbind(1:, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59)
+[,c]
+controlc %>% gather(1, 2, 3, 4, NumSrc, Rank, Lower, Upper, 1996:2014)
+
+cc <- gather(controlc, Country/Territory, WBCode, Estimate, StdErr, NumSrc, Rank, Lower, Upper, 1996:2014)
 
 
 
@@ -63,3 +82,5 @@ ts(data = Wages, start = (1976), end = (1982), frequency = 4165,
 M3 <- plm(lwage ~ exp, data = Wages)
 summary(M1)
 confint(M1)
+
+

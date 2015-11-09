@@ -1,5 +1,12 @@
 # Install packages
-install.packages("httr","dplyr","xlsx","rio","stargazer","Zelig","repmis","plm","tidyr")
+install.packages("dplyr")
+install.packages("xlsx")
+install.packages("rio")
+install.packages("stargazer")
+install.packages("Zelig")
+install.packages("repmis")
+install.packages("plm")
+install.packages("tidyr")
 
 # Find working directory
 getwd()
@@ -20,7 +27,7 @@ library(repmis)
 library(plm)
 library(tidyr)
 
-# Loading dataset of Control of Corruption - the World Bank
+# Loading dataset of Control of Corruption - the World Bank's Governance Indicators
 
 URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx"
 temp <- tempfile()
@@ -28,7 +35,7 @@ download.file(URL, temp, mode='wb')
 controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 unlink(temp)
 
-# Cleaning the data
+# Cleaning the data of Control of Corruption
 
 # Changing the order of rows 1 and 2 
 controlc <- rbind(controlc[c(2,1),], controlc[-c(1,2),])
@@ -60,6 +67,7 @@ names(controlc) <- c("Country", "WBCode", "Estimate", "Std. Error", "NumSrc", "R
 
 # World Bank Dataset
 data("XXXXXX")
+
 # To see the name of variables
 names("XXXXXXXXXX")
 # Histogram

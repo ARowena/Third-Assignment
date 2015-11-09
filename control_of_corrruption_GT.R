@@ -1,12 +1,3 @@
-# Install packages
-install.packages("dplyr")
-install.packages("xlsx")
-install.packages("rio")
-install.packages("stargazer")
-install.packages("Zelig")
-install.packages("repmis")
-install.packages("plm")
-install.packages("tidyr")
 
 # Find working directory
 getwd()
@@ -56,10 +47,11 @@ row.names(cc) <- NULL
 colnames(cc)[1] <- "Country"
 colnames(cc)[2] <- "WBCode"
 
-# Setting the years as an observation 
-contc <- cbind(1:, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59)
-[,c]
-controlc %>% gather(1, 2, 3, 4, NumSrc, Rank, Lower, Upper, 1996:2014)
+# Setting the years as an observation and ordering the data
+
+cc <- gather(cc, Year, Estimate, 3:18)
+cc <- cc[order(cc$Country, cc$Year), ]
+row.names(cc) <- NULL
 
 cc <- gather(controlc, Country/Territory, WBCode, Estimate, StdErr, NumSrc, Rank, Lower, Upper, 1996:2014)
 

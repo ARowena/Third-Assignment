@@ -19,20 +19,19 @@ library(tidyr)
 URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx"
 temp <- tempfile()
 download.file(URL, temp, mode='wb')
-controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = TRUE)
+controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 unlink(temp)
 
 # Cleaning the data
+controlc %>% arrange()
+rownames()
+controlc2 <- gather(controlc, "Estimate", "Std. Error", NumSrc, Rank, Lower, Upper, 1996:2014)
 
-control2 <- data_frame(
-  group
-)
 
-install.packages("stargazer")
-install.packages("Zelig")
-data()
-library(plm)
-library(stargazer)
+
+
+
+names(controlc) <- c("Country", "WBCode", "Estimate", "Std. Error", "NumSrc", "Rank", "Lower", "Upper")
 
 # World Bank Dataset
 data("XXXXXX")

@@ -46,11 +46,15 @@ names(controlc) = as.character(unlist(controlc[1,]))
 controlc = controlc[-1,] 
 row.names(controlc) <- NULL
 
-# Drop all unnecesary variables
-controlc$StdErr <- NULL
-controlc$NumSrc <- NULL
-controlc$Lower <- NULL
-controlc$Upper <- NULL
+# Keeping only neccesary variables
+cc <- controlc[c(1, 2, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
+
+# Setting the years as an observation 
+names(cc) = as.character(unlist(cc[1,]))
+cc = cc[-1,]
+row.names(cc) <- NULL
+colnames(cc)[1] <- "Country"
+colnames(cc)[2] <- "WBCode"
 
 # Setting the years as an observation 
 contc <- cbind(1:, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50, 53, 56, 59)

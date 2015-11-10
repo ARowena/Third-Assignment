@@ -14,7 +14,6 @@ try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
 # 2. Set root as working directory
-setwd('/')
 
 # 3. Load libraries
 library(httr)

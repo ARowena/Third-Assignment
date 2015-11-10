@@ -21,7 +21,7 @@ library(countrycode)
 
 # Loading dataset of Control of Corruption - the World Bank's Governance Indicators
 
-URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx"
+try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
 temp <- tempfile()
 download.file(URL, temp, mode='wb')
 controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
@@ -30,14 +30,14 @@ unlink(temp)
 # Cleaning the data of Control of Corruption
 
 # Keeping only neccesary variables
-cc <- controlc[c(1, 2, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
+cc <- controlc[c(2, 1, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
 
 # Setting the years as an observation 
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL
-colnames(cc)[2] <- "WBCode"
-colnames(cc)[1] <- "Country"
+colnames(cc)[1] <- "WBCode"
+colnames(cc)[2] <- "Country"
 
 # Setting the years as an observation and ordering the data
 

@@ -37,8 +37,9 @@ library(rJava)
 # 1. Get the datafile from an URL and set it as a Dataframe
 
 try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
-wgidataset.xlsx <- "worldbank_wgidataset.xlsx"
+fname <- "worldbank_wgidataset.xlsx"
 if (!(file.exists(fname))) {
+  fname <- tempfile()
   download.file(URL, fname, mode='wb')
 }
 controlc <- read.xlsx2(fname, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
@@ -50,20 +51,25 @@ cc <- controlc[c(2, 1, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87,
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL
-colnames(cc)[1] <- "WBCode"
-colnames(cc)[2] <- "Country"
+colnames(cc)[1] <- "wbcode"
+colnames(cc)[2] <- "country"
 
 # 5. Set the years as an observation and ordering the data
 cc <- gather(cc, Year, Estimate, 3:18)
-cc <- cc[order(cc$Country, cc$Year), ]
+cc <- cc[order(cc$country, cc$Year), ]
 row.names(cc) <- NULL
 
 # 6. Create ID for each observation and matching country codes
 cc <- mutate(cc, ID = rownames(cc))
 cc <- cc[c(5,1,2,3,4)]
-cc$iso2c <- countrycode(cc$WBCode, origin = "wb",destination = "iso2c", warn = TRUE)
+cc$iso2c <- countrycode(cc$wbcode, origin = "wb",destination = "iso2c", warn = TRUE)
 cc <- cc[c(1,6,2,3,4,5)]
 cc <- cc[-c(3)]
+colnames(cc)[1] <- "id"
+colnames(cc)[4] <- "year"
+colnames(cc)[5] <- "estimate"
+
+
 
 #########################################################################################
 # Section WDI Data from World Bank (for GDP per capita and Natural Resource Rents)    
@@ -123,8 +129,9 @@ wdi <- merge(wdi, governance,by=c("iso2c","year","country"))
 wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"))
 wdi <- merge(wdi, totrents,by=c("iso2c","year","country"))
 wdi <- merge(wdi, unemp,by=c("iso2c","year","country"))
+wdi <- merge(wdi, cc,by=c("iso2c","year"))
 
-# 3. Let's rename the variables so they are easy to identify
+# 3. Rename the variables so they are easy to identify
 # merge two data frames by ID and Country
 wdi <- rename  (wdi,
                 totrents = NY.GDP.TOTL.RT.ZS,
@@ -132,7 +139,12 @@ wdi <- rename  (wdi,
                 gasrents = NY.GDP.NGAS.RT.ZS,
                 gnipc = NY.GNP.PCAP.PP.KD,
                 unemp = SL.UEM.TOTL.ZS,
-                governance = IQ.CPA.TRAN.XQ)
+                governance = IQ.CPA.TRAN.XQ,
+                ccest = estimate,
+                country = country.x)
+wdi <- wdi[-c(10, 11)]
+wdi <- wdi[c(1,2,3,10,4,5,6,7,8,9)]
+
 
 ############################################################################################
 ############################################################################################

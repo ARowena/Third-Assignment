@@ -22,10 +22,11 @@ library(countrycode)
 # Loading dataset of Control of Corruption - the World Bank's Governance Indicators
 
 try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
-temp <- tempfile()
-download.file(URL, temp, mode='wb')
-controlc <- read.xlsx2(temp, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
-unlink(temp)
+fname <- "worldbank_wgidataset.xlsx"
+if (!(file.exists(wgidataset.xlsx))) {
+  download.file("http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", wgidataset.xlsx, mode='wb')
+}
+controlc <- read.xlsx2(fname, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 
 # Cleaning the data of Control of Corruption
 
@@ -45,13 +46,12 @@ cc <- gather(cc, Year, Estimate, 3:18)
 cc <- cc[order(cc$Country, cc$Year), ]
 row.names(cc) <- NULL
 
-# Creating ID for each observation and matching coutry codes
+# Creating ID for each observation and matching country codes
 cc <- mutate(cc, ID = rownames(cc))
 cc <- cc[c(5,1,2,3,4)]
-
-countrycode(cc$Country, "country.name","iso2c")
-countrycode(cc$Country, "wb","iso2c")
-
+cc$iso2c <- countrycode(cc$WBCode, origin = "wb",destination = "iso2c", warn = TRUE)
+cc <- cc[c(1,6,2,3,4,5)]
+cc <- cc[-c(3)]
 
 # World Bank Dataset
 data("XXXXXX")

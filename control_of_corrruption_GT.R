@@ -13,9 +13,7 @@ getwd()
 try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
-# 2. Set root as working directory
-
-# 3. Load libraries
+# 2. Load libraries
 library(httr)
 library(dplyr)
 library(xlsx)
@@ -36,22 +34,19 @@ library(rJava)
 # Subsection I.1 -  Loading dataset of Control of Corruption - the World Bank's Governance Indicators
 ######################################################################################################
 
-# 1. The following code accesses directly the data from the World Governance Indicators, in case the link is
-# unstable it downloads the file from the internet and opens it
+# 1. Get the datafile from an URL and set it as a Dataframe
 
 try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
-fname <- "worldbank_wgidataset.xlsx"
-if (!(file.exists(wgidataset.xlsx))) {
-  download.file("http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", wgidataset.xlsx, mode='wb')
+wgidataset.xlsx <- "worldbank_wgidataset.xlsx"
+if (!(file.exists(fname))) {
+  download.file(URL, fname, mode='wb')
 }
-
-# 2. Tell R to read the table as a data frame 
 controlc <- read.xlsx2(fname, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 
-# 3. Keep only relevant variables
+# 2. Keep only relevant variables
 cc <- controlc[c(2, 1, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
 
-# 4. Set the years as an observation 
+# 3. Set the years as an observation 
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL

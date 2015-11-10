@@ -36,8 +36,8 @@ cc <- controlc[c(1, 2, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87,
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL
-colnames(cc)[1] <- "Country"
 colnames(cc)[2] <- "WBCode"
+colnames(cc)[1] <- "Country"
 
 # Setting the years as an observation and ordering the data
 
@@ -47,6 +47,8 @@ row.names(cc) <- NULL
 
 # Creating ID for each observation and matching coutry codes
 cc <- mutate(cc, ID = rownames(cc))
+cc <- cc[c(5,1,2,3,4)]
+
 countrycode(cc$Country, "country.name","iso2c")
 countrycode(cc$Country, "wb","iso2c")
 

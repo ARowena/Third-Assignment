@@ -1,13 +1,22 @@
+#################################################################################################################################
+# Corruption and Natural Resource Rents - by Natalia Alvarado and Gabriel Tarriba
+# This file gathers data from various sources (World Governance Indicators and World Development Indicators), cleans it, merges
+# it and organizes it for analysis (Section 1). Then, it carries out analyses on the data (Section 2)
+#################################################################################################################################
 
-# Find working directory
+################################
+# Section I: Data preparation  #
+################################
+
+# 1. Set working directory
 getwd()
 try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
-# Set root as working directory
+# 2. Set root as working directory
 setwd('/')
 
-# Load libraries
+# 3. Load libraries
 library(httr)
 library(dplyr)
 library(xlsx)
@@ -18,43 +27,121 @@ library(repmis)
 library(plm)
 library(tidyr)
 library(countrycode)
+library(dplyr)
+library(Hmisc)
+library(WDI)
+library(xlsxjars)
+library(rJava)
 
-# Loading dataset of Control of Corruption - the World Bank's Governance Indicators
+#######################################################################################################
+# Subsection I.1 -  Loading dataset of Control of Corruption - the World Bank's Governance Indicators
+######################################################################################################
+
+# 1. The following code accesses directly the data from the World Governance Indicators, in case the link is
+# unstable it downloads the file from the internet and opens it
 
 try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
 fname <- "worldbank_wgidataset.xlsx"
 if (!(file.exists(wgidataset.xlsx))) {
   download.file("http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", wgidataset.xlsx, mode='wb')
 }
+
+# 2. Tell R to read the table as a data frame 
 controlc <- read.xlsx2(fname, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 
-# Cleaning the data of Control of Corruption
-
-# Keeping only neccesary variables
+# 3. Keep only relevant variables
 cc <- controlc[c(2, 1, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
 
-# Setting the years as an observation 
+# 4. Set the years as an observation 
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL
 colnames(cc)[1] <- "WBCode"
 colnames(cc)[2] <- "Country"
 
-# Setting the years as an observation and ordering the data
-
+# 5. Set the years as an observation and ordering the data
 cc <- gather(cc, Year, Estimate, 3:18)
 cc <- cc[order(cc$Country, cc$Year), ]
 row.names(cc) <- NULL
 
-# Creating ID for each observation and matching country codes
+# 6. Create ID for each observation and matching country codes
 cc <- mutate(cc, ID = rownames(cc))
 cc <- cc[c(5,1,2,3,4)]
 cc$iso2c <- countrycode(cc$WBCode, origin = "wb",destination = "iso2c", warn = TRUE)
 cc <- cc[c(1,6,2,3,4,5)]
 cc <- cc[-c(3)]
 
-# World Bank Dataset
-data("XXXXXX")
+#########################################################################################
+# Section WDI Data from World Bank (for GDP per capita and Natural Resource Rents)    
+# This section gathers WDI Data from the World Bank, cleans it, orders it and merges it
+#########################################################################################
+
+# 1. Download the relevant variables for our project:
+
+# 1.1 Total natural resources rents (% of GDP) - 
+# "Total natural resources rents are the sum of oil rents, 
+# natural gas rents, coal rents (hard and soft), mineral rents, and forest rents".
+totrents <- WDI(indicator = 'NY.GDP.TOTL.RT.ZS')
+
+# 1.2 Oil rents (% of GDP) - 
+# "Oil rents are the difference between the value of
+# oil production at world prices and total costs of production.".
+oilrents <- WDI(indicator = 'NY.GDP.PETR.RT.ZS')
+
+# 1.3 Natural gas rents (% of GDP) - 
+# "Natural gas rents are the difference between the value of
+# natural gas production at world prices and total costs of production.".
+gasrents <- WDI(indicator = 'NY.GDP.NGAS.RT.ZS')
+
+# 1.4 GNI per capita, PPP (constant 2011 international $)
+# "GNI per capita based on purchasing power parity (PPP). 
+# PPP GNI is gross national income (GNI) converted to international
+# dollars using purchasing power parity rates. An international dollar
+# has the same purchasing power over GNI as a U.S. dollar has in the
+# United States. GNI is the sum of value added by all resident producers
+# plus any product taxes (less subsidies) not included in the valuation of
+# output plus net receipts of primary income (compensation of employees 
+# and property income) from abroad. Data are in constant 2011 international dollars".
+gnipc <- WDI(indicator = 'NY.GNP.PCAP.PP.KD')
+
+# 1.5 Unemployment, total (% of total labor force) (modeled ILO estimate)
+# Unemployment refers to the share of the labor force that is without 
+# work but available for and seeking employment.
+unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
+
+# 1.6 CPIA transparency, accountability, and corruption 
+# in the public sector rating (1=low to 6=high)
+# "Transparency, accountability, and corruption in the public sector assess 
+# the extent to which the executive can be held accountable for its use of 
+# funds and for the results of its actions by the electorate and by the 
+# legislature and judiciary, and the extent to which public employees within
+# the executive are required to account for administrative decisions, use of 
+# resources, and results obtained. The three main dimensions assessed here
+# are the accountability of the executive to oversight institutions and of 
+# public employees for their performance, access of civil society to 
+# information on public affairs, and state capture by narrow vested interests".
+governance <- WDI(indicator = 'IQ.CPA.TRAN.XQ')
+
+# 2. Merge the six data frames into one using country code and year
+# We can't merge all six at once, so we merge two dataframes at a time, in five steps
+wdi <- merge(gasrents, gnipc,by=c("iso2c","year","country"))
+wdi <- merge(wdi, governance,by=c("iso2c","year","country"))
+wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"))
+wdi <- merge(wdi, totrents,by=c("iso2c","year","country"))
+wdi <- merge(wdi, unemp,by=c("iso2c","year","country"))
+
+# 3. Let's rename the variables so they are easy to identify
+# merge two data frames by ID and Country
+wdi <- rename  (wdi,
+                totrents = NY.GDP.TOTL.RT.ZS,
+                oilrents = NY.GDP.PETR.RT.ZS,
+                gasrents = NY.GDP.NGAS.RT.ZS,
+                gnipc = NY.GNP.PCAP.PP.KD,
+                unemp = SL.UEM.TOTL.ZS,
+                governance = IQ.CPA.TRAN.XQ)
+
+############################################################################################
+############################################################################################
 
 # To see the name of variables
 names("XXXXXXXXXX")
@@ -64,7 +151,6 @@ hist(xxx$yyyyy)
 mean(XXX$yyyy)
 #boxplot
 boxplot(swiss$Examination, main = 'blah')
-
 
 
 ?Wages

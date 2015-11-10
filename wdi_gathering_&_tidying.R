@@ -55,5 +55,12 @@ unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
 # information on public affairs, and state capture by narrow vested interests".
 governance <- WDI(indicator = 'IQ.CPA.TRAN.XQ')
 
+# 4. Merge the six data frames into one using country code and year
+wdi <- merge(gasrents, gnipc,by=c("iso2c","year","country"))
+wdi <- merge(wdi, governance,by=c("iso2c","year","country"))
+wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"))
+wdi <- merge(wdi, totrents,by=c("iso2c","year","country"))
+wdi <- merge(wdi, unemp,by=c("iso2c","year","country"))
+
 
 

@@ -164,7 +164,7 @@ wdi <- na.omit(wdi)
 unique(unlist(wdi$country, use.names = FALSE))
 
 # 1.3.7. Create CSV Version of merged file
-write.csv(wdi, file="MergedData")
+write.csv(wdi, file="MergedData.csv")
 
 # 1.3.7. We create labels for the variables (columns) in our data frame
 var.labels <- c(iso2c = "Country Code", year = "Year",
@@ -175,8 +175,6 @@ var.labels <- c(iso2c = "Country Code", year = "Year",
                 totrents = "Total natural resource rents (% of GDP)",
                 unemp = "Unemployment, total (% of total labor force) (modeled ILO estimate)"
                 )
-
-
 
 
 # We conclude that the data is OK and ready for analysis!
@@ -190,10 +188,11 @@ var.labels <- c(iso2c = "Country Code", year = "Year",
 ###########################################
 
 # To see the name of variables
-names("XXXXXXXXXX")
+
 
 # Histogram
 hist(xxx$yyyyy)
+
 # Mean
 mean(XXX$yyyy)
 #boxplot

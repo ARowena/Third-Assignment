@@ -63,6 +63,7 @@ row.names(cc) <- NULL
 cc <- mutate(cc, ID = rownames(cc))
 cc <- cc[c(5,1,2,3,4)]
 cc$iso2c <- countrycode(cc$wbcode, origin = "wb",destination = "iso2c", warn = TRUE)
+cc$country <- countrycode(cc$iso2c, origin = "iso2c",destination = "country.name", warn = TRUE)
 cc <- cc[c(1,6,2,3,4,5)]
 cc <- cc[-c(3)]
 colnames(cc)[1] <- "id"
@@ -93,16 +94,14 @@ oilrents <- WDI(indicator = 'NY.GDP.PETR.RT.ZS')
 # natural gas production at world prices and total costs of production.".
 gasrents <- WDI(indicator = 'NY.GDP.NGAS.RT.ZS')
 
-# 1.4 GNI per capita, PPP (constant 2011 international $)
-# "GNI per capita based on purchasing power parity (PPP). 
-# PPP GNI is gross national income (GNI) converted to international
-# dollars using purchasing power parity rates. An international dollar
-# has the same purchasing power over GNI as a U.S. dollar has in the
-# United States. GNI is the sum of value added by all resident producers
-# plus any product taxes (less subsidies) not included in the valuation of
-# output plus net receipts of primary income (compensation of employees 
-# and property income) from abroad. Data are in constant 2011 international dollars".
-gnipc <- WDI(indicator = 'NY.GNP.PCAP.PP.KD')
+# 1.4 GDP per capita (constant 2005 US$)
+# "GDP per capita is gross domestic product divided by midyear population. 
+# GDP is the sum of gross value added by all resident producers in the economy 
+# plus any product taxes and minus any subsidies not included in the value of 
+# the products. It is calculated without making deductions for depreciation of 
+# fabricated assets or for depletion and degradation of natural resources. Data 
+# are in constant 2005 U.S. dollars".
+gdppc <- WDI(indicator = 'NY.GDP.PCAP.KD')
 
 # 1.5 Unemployment, total (% of total labor force) (modeled ILO estimate)
 # Unemployment refers to the share of the labor force that is without 
@@ -123,13 +122,18 @@ unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
 governance <- WDI(indicator = 'IQ.CPA.TRAN.XQ')
 
 # 2. Merge the six data frames into one using country code and year
-# We can't merge all six at once, so we merge two dataframes at a time, in five steps
-wdi <- merge(gasrents, gnipc,by=c("iso2c","year","country"))
-wdi <- merge(wdi, governance,by=c("iso2c","year","country"))
-wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"))
-wdi <- merge(wdi, totrents,by=c("iso2c","year","country"))
-wdi <- merge(wdi, unemp,by=c("iso2c","year","country"))
-wdi <- merge(wdi, cc,by=c("iso2c","year"))
+
+wdi <- merge(gasrents, gdppc,by=c("iso2c","year","country"), all = TRUE)
+wdi <- merge(wdi, governance,by=c("iso2c","year","country"), all = TRUE)
+wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"), all = TRUE)
+wdi <- merge(wdi, totrents,by=c("iso2c","year","country"), all = TRUE)
+wdi <- merge(wdi, unemp,by=c("iso2c","year","country"), all = TRUE)
+
+# Make the variable "country" in both datasets match
+wdi$country <- countrycode(wdi$iso2c, origin = "iso2c",destination = "country.name", warn = TRUE)
+
+# Make last merge
+wdi <- merge(wdi, cc,by=c("iso2c","year", "country"), all = TRUE)
 
 # 3. Rename the variables so they are easy to identify
 # merge two data frames by ID and Country
@@ -137,13 +141,22 @@ wdi <- rename  (wdi,
                 totrents = NY.GDP.TOTL.RT.ZS,
                 oilrents = NY.GDP.PETR.RT.ZS,
                 gasrents = NY.GDP.NGAS.RT.ZS,
-                gnipc = NY.GNP.PCAP.PP.KD,
+                gdppc = NY.GDP.PCAP.KD,
                 unemp = SL.UEM.TOTL.ZS,
                 governance = IQ.CPA.TRAN.XQ,
-                ccest = estimate,
-                country = country.x)
-wdi <- wdi[-c(10, 11)]
-wdi <- wdi[c(1,2,3,10,4,5,6,7,8,9)]
+                corrupest = estimate,
+                country = country)
+wdi <- wdi[-c(6, 10)]
+wdi <- wdi[c(1,2,3,9,4,5,6,7,8)]
+
+# Elimiate observations not belonging to a
+wdi <- wdi[- grep("1", wdi$iso2c),]
+wdi <- wdi[- grep("4", wdi$iso2c),]
+wdi <- wdi[- grep("7", wdi$iso2c),]
+wdi <- wdi[- grep("8", wdi$iso2c),]
+
+# Eliminate all missing cases
+wdi <- na.omit(wdi)
 
 
 ############################################################################################

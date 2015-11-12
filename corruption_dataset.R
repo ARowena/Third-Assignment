@@ -163,12 +163,17 @@ wdi <- na.omit(wdi)
 # 1.3.6. See unique list of values to verify that data set is OK
 unique(unlist(wdi$country, use.names = FALSE))
 
+# 1.3.7. Create CSV Version of merged file
+write.csv(wdi, file="MergedData")
+
 # 1.3.7. We create labels for the variables (columns) in our data frame
-var.labels <- c(iso2c = "Country Code", year = "Year", country = "Country", corrupest = "CPIA transparency, accountability, and corruption in the public sector rating (1=low to 6=high)",
-              gasrents = "Natural gas rents (% of GDP)", gdppc = "GDP per capita (constant 2005 US$)",
-              oilrents = "Oil rents (% of GDP)",
-              totrents = "Total natural resource rents (% of GDP)",
-              unemp = "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+var.labels <- c(iso2c = "Country Code", year = "Year",
+                country = "Country",
+                corrupest = "CPIA transparency, accountability, and corruption in the public sector rating (1=low to 6=high)",
+                gasrents = "Natural gas rents (% of GDP)", gdppc = "GDP per capita (constant 2005 US$)",
+                oilrents = "Oil rents (% of GDP)",
+                totrents = "Total natural resource rents (% of GDP)",
+                unemp = "Unemployment, total (% of total labor force) (modeled ILO estimate)"
                 )
 
 

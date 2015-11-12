@@ -5,7 +5,18 @@ date: "13 November 2015"
 output: html_document
 runtime: shiny
 ---
+```{r, echo=FALSE}
+# Set working directory
+getwd()
+try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
+try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
+# Load necessary packages
+Packages <- c("ggplot2","repmis")
+
+# Load Data
+load("corruption_dataset.R")
+```
 #Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 
 ## 1. Introduction
@@ -44,7 +55,14 @@ In [Assignment 2](https://github.com/natalia-alvara do/Second-Assignment) we als
 
 ```
 
-## 2.3 
+## 2.3 Descriptive Statistics
+
+```{r, echo=FALSE}
+
+```
+
+
+
 
 
 

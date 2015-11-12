@@ -2,7 +2,7 @@
 title: "Corruption and Natural Resources"
 author: "N. Alvarado and G. Tarriba"
 date: "30 de octubre de 2015"
-output: word_document
+output: pdf_document
 ---
 
 
@@ -20,15 +20,5 @@ confint(M1)
 labels <- c('')
 stargazer::stargazer(M1, M2, title='OLS regression of the Percentage of Wages Variation', digits=2, type='html', header = FALSE)
 type='html'
-```
-
-```{r}
-
-ts(data = Wages, start = (1976), end = (1982), frequency = 4165,
-   deltat = 1, ts.eps = getOption("ts.eps"), class = , names = )
-M3 <- plm(lwage ~ exp, data = Wages)
-summary(M1)
-confint(M1)
-
 ```
 

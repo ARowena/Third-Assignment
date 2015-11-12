@@ -5,8 +5,14 @@ date: "November 12, 2015"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+full_data <- read.csv("MergedData.csv")
+library(ggplot2)
+library(devtools)
+ggplot(data = full_data, aes(x = corrupest,
+        y = totrents)) + geom_point()
+
 ```
 
 ## R Markdown

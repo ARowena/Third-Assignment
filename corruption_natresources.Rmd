@@ -12,29 +12,39 @@ runtime: shiny
 
 Our collaborative research project seeks to provide an answer to the following question: how significant is the relationship between a country’s degree of dependence on natural resource rents and its corruption level? In the 1990s and early 2000s, several scholars (see among others @leite1999, @sala2003, @pendergast2007 and @shaxson2007) identified this relationship and developed theories to account for the "Natural Resource Curse" first identified by Sachs and Werner (-@sachs1995). However, in light of the rapid economic development of many resource-dependent developing countries since the turn of the century (notably in sub-Saharan Africa, which is now the second fastest growing region in the world after Asia-Pacific @africa2014), it is worth revisiting this relationship. Perhaps it is no longer the case that the reliance on natural resource rents impairs governance and facilitates corruption. 
 
-## 2. Data required for empirical methods
+## 2. Data preparation
 
-We plan to conduct analysis on data from all countries in the world for the last 20 years, because the existing empirical literature analyzes data prior to this period. As our research question suggests, we plan to use a corruption indicator as our dependent variable and a measure of dependence on natural resource rents as our explanatory variable of interest. We also want to include control variables such as GDP/GNI per capita and Unemployment. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
+We plan to conduct analysis on data from all countries in the world for the last 20 years, because the existing empirical literature analyzes data prior to this period. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and a measure of dependence on natural resource rents as our explanatory variable of interest. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
+
+We want to be create indicators to run the following model:
+
+$$Corruption^*_{it} = \beta_1 NaturalResourceRents^*_{it} + \beta_2 GDPpercapita^*_{it} + \beta_3 Unemployment^*_{it} + \epsilon$$
 
 ### 2.1 Data sources 
 
 The data necessary for our empirical analysis is located in two sources:
-* The [World Governance Indicators (WGI)](http://data.worldbank.org/data-catalog/worldwide-governance-indicators) of the World Bank, defined as "Aggregate and individual governance indicators for 215 countries and territories over the period 1996–2014, for six dimensions of governance".
-* The [World Development Indicators (WDI)](http://data.worldbank.org/data-catalog/world-development-indicators) also from the World Bank. This is "The primary World Bank collection of development indicators, compiled from officially-recognized international sources. It presents the most current and accurate global development data available, and includes national, regional and global estimates."
+
+- The [World Governance Indicators (WGI)](http://data.worldbank.org/data-catalog/worldwide-governance-indicators) of the World Bank, defined as "Aggregate and individual governance indicators for 215 countries and territories over the period 1996–2014, for six dimensions of governance".
+
+- The [World Development Indicators (WDI)](http://data.worldbank.org/data-catalog/world-development-indicators) also from the World Bank. This is "The primary World Bank collection of development indicators, compiled from officially-recognized international sources. It presents the most current and accurate global development data available, and includes national, regional and global estimates."
 
 In [Assignment 2](https://github.com/natalia-alvara do/Second-Assignment) we also considered including in our analysis an indicator of prevalence of conflict, using data from the [UCDP/PRIO Armed Conflict Dataset](http://www.pcr.uu.se/research/ucdp/datasets/ucdp_prio_armed_conflict_dataset/). However, upon close inspection of the data we realized that it was not useful since it does not include information on the magnitude of conflicts.
 
-### 2.2 Automatic data gathering and cleaning
+### 2.2 Data gathering
 
-* We gathered data from the World Development Indicators (WDI) using the [WDI Package for R](https://cran.r-project.org/web/packages/WDI/WDI.pdf).This package enables us to automatically download WDI indicators using the World Bank's APIs.
-
-* 
+- We gathered data directly from the **World Development Indicators** using the [WDI Package for R](https://cran.r-project.org/web/packages/WDI/WDI.pdf).This package enables us to automatically download WDI indicators using the World Bank's APIs.
 
 ```{r, echo=FALSE}
 
 ```
 
+- For the **World Governance Indicators** there was no API. Hence, the data was automatically downloaded as a .XLSX file and then imported into R.
 
+```{r, echo=FALSE}
+
+```
+
+## 2.3 
 
 
 

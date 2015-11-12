@@ -15,7 +15,7 @@ try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 Packages <- c("ggplot2","repmis")
 
 # Load Data
-load("corruption_dataset.R")
+merged <- read.csv(file="MergedData.csv")
 ```
 #Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 

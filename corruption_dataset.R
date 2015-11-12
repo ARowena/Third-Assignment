@@ -159,6 +159,7 @@ wdi <- wdi[- grep("8", wdi$iso2c),]
 
 # 1.3.5. Eliminate all missing observations
 wdi <- na.omit(wdi)
+row.names(cc) <- NULL
 
 # 1.3.6. See unique list of values to verify that data set is OK
 unique(unlist(wdi$country, use.names = FALSE))

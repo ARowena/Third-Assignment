@@ -5,9 +5,9 @@
 # it and organizes it for analysis (Section 1). Then, it carries out analyses on the data (Section 2)
 #################################################################################################################################
 
-################################
-# Section I: Data preparation  #
-################################
+#################################################################################################################################
+# Section I: Data preparation  
+#################################################################################################################################
 
 # 1. Set working directory for our two computers (so that the code runs on either of them)
 getwd()
@@ -31,11 +31,11 @@ library(WDI)
 library(xlsxjars)
 library(rJava)
 
-#######################################################################################################
-# Subsection I.1 -  Loading dataset of Control of Corruption - the World Bank's Governance Indicators
-######################################################################################################
+##################################################################################
+# Subsection 1.1 -  Gather corruption data from the World Governance Indicators  #
+##################################################################################
 
-# 1. Get the datafile from an URL and set it as a Dataframe
+# 1.1.1 Get the datafile from an URL and set it as a Dataframe
 
 try(URL <- "http://info.worldbank.org/governance/wgi/index.aspx?fileName=wgidataset.xlsx", silent = TRUE)
 fname <- "worldbank_wgidataset.xlsx"
@@ -45,22 +45,22 @@ if (!(file.exists(fname))) {
 }
 controlc <- read.xlsx2(fname, 7, sheetName = NULL, startRow = 14, endRow = 230, colIndex = NULL, as.data.frame = TRUE, header = FALSE)
 
-# 2. Keep only relevant variables
+# 1.1.2. Keep only relevant variables
 cc <- controlc[c(2, 1, 3, 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93)]
 
-# 3. Set the years as an observation 
+# 1.1.3. Set the years as an observation 
 names(cc) = as.character(unlist(cc[1,]))
 cc = cc[-1,]
 row.names(cc) <- NULL
 colnames(cc)[1] <- "wbcode"
 colnames(cc)[2] <- "country"
 
-# 5. Set the years as an observation and ordering the data
+# 1.1.4. Set the years as an observation and ordering the data
 cc <- gather(cc, Year, Estimate, 3:18)
 cc <- cc[order(cc$country, cc$Year), ]
 row.names(cc) <- NULL
 
-# 6. Create ID for each observation and matching country codes
+# 1.1.5. Create ID for each observation and matching country codes
 cc <- mutate(cc, ID = rownames(cc))
 cc <- cc[c(5,1,2,3,4)]
 cc$iso2c <- countrycode(cc$wbcode, origin = "wb",destination = "iso2c", warn = TRUE)
@@ -71,31 +71,28 @@ colnames(cc)[1] <- "id"
 colnames(cc)[4] <- "year"
 colnames(cc)[5] <- "estimate"
 
+#################################################################################
+# Subsection 1.2 - Gather and clean data from the World Development Indicators  #
+#################################################################################
 
+# 1.2.1. Download the relevant variables for our project:
 
-#########################################################################################
-# Section WDI Data from World Bank (for GDP per capita and Natural Resource Rents)    
-# This section gathers WDI Data from the World Bank, cleans it, orders it and merges it
-#########################################################################################
-
-# 1. Download the relevant variables for our project:
-
-# 1.1 Total natural resources rents (% of GDP) - 
+# Total natural resources rents (% of GDP) - 
 # "Total natural resources rents are the sum of oil rents, 
 # natural gas rents, coal rents (hard and soft), mineral rents, and forest rents".
 totrents <- WDI(indicator = 'NY.GDP.TOTL.RT.ZS')
 
-# 1.2 Oil rents (% of GDP) - 
+# Oil rents (% of GDP) - 
 # "Oil rents are the difference between the value of
 # oil production at world prices and total costs of production.".
 oilrents <- WDI(indicator = 'NY.GDP.PETR.RT.ZS')
 
-# 1.3 Natural gas rents (% of GDP) - 
+# Natural gas rents (% of GDP) - 
 # "Natural gas rents are the difference between the value of
 # natural gas production at world prices and total costs of production.".
 gasrents <- WDI(indicator = 'NY.GDP.NGAS.RT.ZS')
 
-# 1.4 GDP per capita (constant 2005 US$)
+# GDP per capita (constant 2005 US$)
 # "GDP per capita is gross domestic product divided by midyear population. 
 # GDP is the sum of gross value added by all resident producers in the economy 
 # plus any product taxes and minus any subsidies not included in the value of 
@@ -104,12 +101,12 @@ gasrents <- WDI(indicator = 'NY.GDP.NGAS.RT.ZS')
 # are in constant 2005 U.S. dollars".
 gdppc <- WDI(indicator = 'NY.GDP.PCAP.KD')
 
-# 1.5 Unemployment, total (% of total labor force) (modeled ILO estimate)
+# Unemployment, total (% of total labor force) (modeled ILO estimate)
 # Unemployment refers to the share of the labor force that is without 
 # work but available for and seeking employment.
 unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
 
-# 1.6 CPIA transparency, accountability, and corruption 
+# CPIA transparency, accountability, and corruption 
 # in the public sector rating (1=low to 6=high)
 # "Transparency, accountability, and corruption in the public sector assess 
 # the extent to which the executive can be held accountable for its use of 
@@ -122,7 +119,7 @@ unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
 # information on public affairs, and state capture by narrow vested interests".
 governance <- WDI(indicator = 'IQ.CPA.TRAN.XQ')
 
-# 2. Merge the six data frames into one using country code and year
+# 1.2.2. Merge the six variables into one data frame using country code and year
 
 wdi <- merge(gasrents, gdppc,by=c("iso2c","year","country"), all = TRUE)
 wdi <- merge(wdi, governance,by=c("iso2c","year","country"), all = TRUE)
@@ -130,14 +127,18 @@ wdi <- merge(wdi, oilrents,by=c("iso2c","year","country"), all = TRUE)
 wdi <- merge(wdi, totrents,by=c("iso2c","year","country"), all = TRUE)
 wdi <- merge(wdi, unemp,by=c("iso2c","year","country"), all = TRUE)
 
-# Make the variable "country" in both datasets match
+########################################################################################
+# Subsection 1.3 - Merge the two data frames (Governance and Development Indicators)   #
+########################################################################################
+
+# 1.3.1. Use countrycode package to import ISO2C country code into WDI dataset in order to enable
+# (cont.) us to merge it with the other dataset (which uses ISO2C as country code)
 wdi$country <- countrycode(wdi$iso2c, origin = "iso2c",destination = "country.name", warn = TRUE)
 
-# Make last merge
+# 1.3.2. Merge the WDI and Corruption Control datasets using country code (iso2c) and year as matching variables
 wdi <- merge(wdi, cc,by=c("iso2c","year", "country"), all = TRUE)
 
-# 3. Rename the variables so they are easy to identify
-# merge two data frames by ID and Country
+# 1.3.3. Rename the variables so they are easier to identify
 wdi <- rename  (wdi,
                 totrents = NY.GDP.TOTL.RT.ZS,
                 oilrents = NY.GDP.PETR.RT.ZS,
@@ -150,18 +151,26 @@ wdi <- rename  (wdi,
 wdi <- wdi[-c(6, 10)]
 wdi <- wdi[c(1,2,3,9,4,5,6,7,8)]
 
-# Elimiate observations not belonging to a
+# 1.3.4. Eliminate observations not belonging to countries (i.e. regions and continents)
 wdi <- wdi[- grep("1", wdi$iso2c),]
 wdi <- wdi[- grep("4", wdi$iso2c),]
 wdi <- wdi[- grep("7", wdi$iso2c),]
 wdi <- wdi[- grep("8", wdi$iso2c),]
 
-# Eliminate all missing cases
+# 1.3.5. Eliminate all missing observations
 wdi <- na.omit(wdi)
 
+# 1.3.6. See unique list of values to verify that data set is OK
+unique(unlist(wdi$country, use.names = FALSE))
+
+# We conclude that the data is OK and ready for analysis!
+
 
 ############################################################################################
+# Section 2 - Data Analysis
 ############################################################################################
+
+###
 
 # To see the name of variables
 names("XXXXXXXXXX")

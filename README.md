@@ -5,7 +5,7 @@
 ***Due date: 13.11.2015***
 
 ### General Description
-This folder contains all our files for Assignment 3, in which we collect, clean, merge and analyze data for our collaborative project **Revisiting the natural resource curse: does the negative impact of natural resource rents on governance persist in the 21st Century?**. 
+This folder contains all our files for Assignment 3, in which we collect, clean, merge and analyze data for our collaborative project **Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century?**. 
 
 ### Assignment requirements
 - Gather web based data from at least two sources

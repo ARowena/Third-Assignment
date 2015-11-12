@@ -1,5 +1,6 @@
 #################################################################################################################################
 # Corruption and Natural Resource Rents - by Natalia Alvarado and Gabriel Tarriba
+# Due date: 13.11.2015
 # This file gathers data from various sources (World Governance Indicators and World Development Indicators), cleans it, merges
 # it and organizes it for analysis (Section 1). Then, it carries out analyses on the data (Section 2)
 #################################################################################################################################
@@ -8,7 +9,7 @@
 # Section I: Data preparation  #
 ################################
 
-# 1. Set working directory
+# 1. Set working directory for our two computers (so that the code runs on either of them)
 getwd()
 try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)

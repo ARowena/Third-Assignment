@@ -1,9 +1,13 @@
 ---
-title: "Corruption and Natural Resources"
+title: "Collaborative Research Project - Assignment 3"
 author: "N. Alvarado and G. Tarriba"
-date: "30 de octubre de 2015"
-output: pdf_document
+date: "13 November 2015"
+output: html_document
+runtime: shiny
 ---
+
+#Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
+
 
 
 ```{r, echo=FALSE}

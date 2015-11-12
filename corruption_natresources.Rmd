@@ -8,7 +8,7 @@ runtime: shiny
 ```{r, echo=FALSE}
 # Set working directory
 getwd()
-try(setwd("C:\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
+try(setwd("\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
 # Load necessary packages

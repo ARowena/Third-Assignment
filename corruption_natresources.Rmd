@@ -5,17 +5,26 @@ date: "13 November 2015"
 output: html_document
 runtime: shiny
 ---
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Set working directory
 getwd()
 try(setwd("\Users\Natalia\Documents\GitHub\Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
-# Load necessary packages
-Packages <- c("ggplot2","repmis")
-
+# Load necessary packages, if you do not have this packages installed we highly recommend it
+library(ggplot2)
+library(repmis)
+library(knitr)
+library(plm)
+library(Hmisc)
+library(ggplot2)
 # Load Data
 merged <- read.csv(file="MergedData.csv")
+
+# Check for nummerical variables 
+str(merged)
+# Set variables as numerical
+
 ```
 #Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 
@@ -64,6 +73,45 @@ In [Assignment 2](https://github.com/natalia-alvara do/Second-Assignment) we als
 
 
 
+## 2.4 Inferencial Statistics
+
+### Corruption over time
+```{R, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+corrtime <- ggplot(aes(x = year, y = corrupest), data = merged) + geom_point(position = "jitter") + theme_bw() + geom_smooth()
+```
+
+### Regressions
+
+Following the model
+
+$$Corruption_i=\beta_0+\beta_1 NaturalResourceRents_i +\beta_2 GDPpercapita_i + \beta_3 Unemployment_i + \epsilon_i$$
+
+The model one is a regression with the control variables specified.
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+model1 <- lm(corrupest ~ totrents + gdppc + unemp, data = merged)
+confint(model1)
+summary(model1)
+
+```
+
+### Heteroskedasticity
+When testing for heterosckedasticity, ...
+
+```{}r
+plot(model1, which = 1, main = "Residual vs. Fitted Plot")
+```
+The graphical inspection suggests there is heterosckedastocity. For this reason, it is necessary
+
+
+### Pearson's correlation
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+cor(merged, use="complete.obs", method="kendall")
+rcorr(as.matrix(merged))
+
+```
+
+
 
 
 $$Corruption_i=\beta_0+\beta_1 NaturalResourceRents_i +\beta_2 GDPpercapita_i + \beta_3 ArmedConflict_i + \beta_4 Unemployment_i + \epsilon_i$$
@@ -80,8 +128,6 @@ $$Unemployment^*_{it} = Unemployment_{it} - \overline {Unemployment_i}$$
 
 
 ```{r, echo=FALSE}
-library(plm)
-library(stargazer)
 data("Wages")
 ?Wages
 summary(Wages)

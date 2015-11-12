@@ -30,6 +30,7 @@ library(Hmisc)
 library(WDI)
 library(xlsxjars)
 library(rJava)
+library(ggplot2)
 
 ##################################################################################
 # Subsection 1.1 -  Gather corruption data from the World Governance Indicators  #
@@ -106,8 +107,7 @@ gdppc <- WDI(indicator = 'NY.GDP.PCAP.KD')
 # work but available for and seeking employment.
 unemp <- WDI(indicator = 'SL.UEM.TOTL.ZS')
 
-# CPIA transparency, accountability, and corruption 
-# in the public sector rating (1=low to 6=high)
+# CPIA transparency, accountability, and corruption in the public sector rating (1=low to 6=high)
 # "Transparency, accountability, and corruption in the public sector assess 
 # the extent to which the executive can be held accountable for its use of 
 # funds and for the results of its actions by the electorate and by the 
@@ -163,17 +163,30 @@ wdi <- na.omit(wdi)
 # 1.3.6. See unique list of values to verify that data set is OK
 unique(unlist(wdi$country, use.names = FALSE))
 
-# We conclude that the data is OK and ready for analysis!
+# 1.3.7. We create labels for the variables (columns) in our data frame
+var.labels <- c(iso2c = "Country Code", year = "Year", country = "Country", corrupest = "CPIA transparency, accountability, and corruption in the public sector rating (1=low to 6=high)",
+              gasrents = "Natural gas rents (% of GDP)", gdppc = "GDP per capita (constant 2005 US$)",
+              oilrents = "Oil rents (% of GDP)",
+              totrents = "Total natural resource rents (% of GDP)",
+              unemp = "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+                )
 
+
+
+
+# We conclude that the data is OK and ready for analysis!
 
 ############################################################################################
 # Section 2 - Data Analysis
 ############################################################################################
 
-###
+###########################################
+# Subsection 2.1 - Descriptive Statistics #
+###########################################
 
 # To see the name of variables
 names("XXXXXXXXXX")
+
 # Histogram
 hist(xxx$yyyyy)
 # Mean

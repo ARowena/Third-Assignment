@@ -4,16 +4,69 @@ author: "Gabriel Tarriba"
 date: "November 12, 2015"
 output: html_document
 ---
+1. Analysis of simple correlation between Control of Corruption and Natural Resource Dependence
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 full_data <- read.csv("MergedData.csv")
+
 library(ggplot2)
 library(devtools)
+
+# Chart 1 - Histograms
+hist(full_data$corrupest, main = 'Corruption Control Score')
+hist(full_data$oilrents, main = 'Oil rents as a % of GDP')
+hist(full_data$totrents, main = 'Total natural rents as a % of GDP')
+
+# Chart 1 - Total rents vs Corruptest
 ggplot(data = full_data, aes(x = corrupest,
-        y = totrents)) + geom_point()
+        y = totrents)) + geom_point() + theme_bw(base_size = 13)
+
+# Chart 2 - Total rents vs Corruptest with smoothed trend line
+ggplot2::ggplot(full_data, aes(corrupest, totrents)) +
+    geom_point() + geom_smooth() + theme_bw()
+
+# Chart 3 - Oil rents vs Corruptest with smoothed trend line
+ggplot2::ggplot(full_data, aes(corrupest, oilrents)) +
+    geom_point() + geom_smooth() + theme_bw()
+
+# Examine variables
+summary (full_data$totrents)
+
+# Examine Total Natural Resource Rents
+summary (full_data$totrents)
+
+# Create levels of Total Natural Rent
+full_data$totrentgroup[full_data$totrents
+< 1.151] <- 1
+full_data$totrentgroup[full_data$totrents
+>= 1.151 & full_data$totrents < 5.022] <- 2
+full_data$totrentgroup[full_data$totrents
+>= 5.022 & full_data$totrents < 12.840] <- 3
+full_data$totrentgroup[full_data$totrents
+> 12.840 ] <- 4
+
+# Examine GDP per capita
+summary (full_data$gdppc)
+
+# Create levels of GDP per capita Natural Rent
+full_data$gdppc[full_data$gdppc
+<829.2 ] <- 1
+full_data$gdppc[full_data$gdppc
+>= 829.2 & full_data$gdppc < 10.740] <- 2
+full_data$gdppc[full_data$gdppc
+>= 10.740 & full_data$gdppc < 13.890] <- 3
+full_data$gdppc[full_data$gdppc
+>= 13980.0] <- 4
+
+
+# Try to get color chart
+ggplot(data = full_data, aes(corrupest, totrents)) + geom_point(aes(colour = gdppc)) +theme_bw()
+
 
 ```
+
+
 
 ## R Markdown
 

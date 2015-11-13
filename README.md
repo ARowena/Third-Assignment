@@ -24,5 +24,16 @@ questions relevant for their Collaborative Research Project.
 3. **Bibliography_A3.bib** is the BibTex file with our references.
 4. **R data** is an automatically generated file. Please ignore.
 5. **R history** is another automatically generated file. Please ignore.
+ 
+### Annex
+
+R version 3.1.3 (2015-03-09) -- "Smooth Sidewalk" Copyright (C) 2015 The R Foundation for Statistical Computing Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R Studio Version 0.99.484 – © 2009-2015 RStudio, Inc.
+
+R Core Team (2015). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL http://www.R-project.org/.
+
+Style guide: We use Google's Style Guide from https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml
+
 
 

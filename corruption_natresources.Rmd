@@ -23,7 +23,9 @@ merged <- read.csv(file="MergedData.csv")
 
 # Check for nummerical variables 
 str(merged)
+
 # Set variables as numerical
+merged$X <- as.numeric(merged$X)
 
 ```
 #Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 

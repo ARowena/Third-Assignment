@@ -1,0 +1,377 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Gabriel Tarriba and Natalia Alvarado},
+            pdftitle={A3\_Analysis\_GABRIEL},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{A3\_Analysis\_GABRIEL}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Gabriel Tarriba and Natalia Alvarado}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{November 12, 2015}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+Governance around the World
+
+\begin{verbatim}
+## [1] "C:/Users/Natalia/Documents/GitHub/Third-Assignment"
+\end{verbatim}
+
+\begin{verbatim}
+## 1165 codes from your data successfully matched countries in the map
+## 7 codes from your data failed to match with a country code in the map
+## 73 codes from the map weren't represented in your data
+\end{verbatim}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{verbatim}
+## $colourVector
+## [1] "#D73027" "#FC8D59" "#FEE090" "#FFFFBF" "#E0F3F8" "#91BFDB" "#4575B4"
+## 
+## $cutVector
+##         0%  14.28571%  28.57143%  42.85714%  57.14286%  71.42857% 
+## -1.5417037 -1.0312416 -0.7479845 -0.4799153 -0.1624444  0.3750576 
+##  85.71429%       100% 
+##  1.2857286  2.3496003 
+## 
+## $plottedData
+##   [1] -1.46425748 -1.33165491 -0.74666435  1.06911635 -0.43084329
+##   [6] -0.63428104          NA          NA  1.97420084  1.95538247
+##  [11] -0.98911059 -0.89968699  1.34454453 -0.97094250 -0.09096798
+##  [16] -1.41244543  0.05843289  1.33068085 -0.19887581 -0.87231416
+##  [21] -0.26537979 -0.76238936 -0.16998011  0.26460642  0.74786240
+##  [26]  1.14126682 -1.20732331  1.86245787  2.02249599  1.45337677
+##  [31] -0.63632601 -1.23961508 -1.16071761 -1.42854226 -1.01628470
+##  [36] -0.11723039  0.38616723  0.30620074          NA  0.89223284
+##  [41]  0.46359169  1.85951495          NA  2.30698466 -0.59000528
+##  [46] -0.42217520 -0.74974465 -0.51781142 -0.20743158  1.29114676
+##  [51]  0.97281581 -0.76913232  2.34960032 -0.61113584          NA
+##  [56]  1.35013270 -0.54507655  1.89513171 -0.35925508 -0.36275649
+##  [61] -1.00844240 -0.70791221 -1.09546697 -1.54170370  0.36672530
+##  [66]          NA -0.63210607 -0.57629478 -0.74222875  0.14060295
+##  [71] -1.44834900  0.61588883 -0.85505664 -0.39707318  1.57422650
+##  [76] -0.43661195 -1.45897937  2.32744265  0.80844969  0.39733738
+##  [81] -0.39704213  0.32882327  1.21005857 -0.99613386 -0.97350907
+##  [86] -1.17030954 -1.17900777  0.59182101          NA  0.63368475
+##  [91] -1.32208443 -0.48764691 -1.03722441 -0.87450439 -0.36985523
+##  [96] -0.03945224  0.22412872  1.65785301  0.32103789 -0.29751062
+## [101] -0.63885224  0.09542546 -0.28031999 -0.44416034 -0.40043217
+## [106]          NA -0.42045748 -0.58142108 -0.54145473 -0.35977095
+## [111] -0.73559362  0.26895383          NA          NA -0.72529244
+## [116] -1.15879035 -0.60643589  1.96512496  2.00044847 -0.63116741
+## [121]  2.21255636  0.29261979 -1.03971636 -0.37678859 -0.36012924
+## [126] -0.59125298 -1.24894238  0.22331396  1.27218318          NA
+## [131]  1.05705976 -1.40629125  0.82461894 -0.21396434 -0.78119242
+## [136] -0.74160552          NA -0.10309494 -1.44962168          NA
+## [141] -0.02907373  0.06471919 -1.09453952 -0.41566709          NA
+## [146]          NA -0.38230625  0.16380545  0.49257374  0.89162934
+## [151]  2.01441908 -0.47862667 -0.70668489 -1.43051064 -0.79251260
+## [156] -0.10133592 -1.09438705 -1.46469653          NA -0.07751523
+## [161] -0.08597195 -0.01912824          NA -0.64983457 -0.84630233
+## [166] -0.68686247  1.04043126  1.52586365 -0.89070380 -0.95676965
+## [171] -0.76259512          NA -0.98219246 -0.78737134  0.58077782
+## [176] -0.78775072 -1.27751315          NA          NA          NA
+## [181]          NA          NA  1.97420084          NA  0.46535936
+## [186]          NA          NA  1.30679715          NA -0.82507420
+## [191]  0.34392548          NA          NA          NA          NA
+## [196]          NA -0.98219246          NA          NA          NA
+## [201]  1.80800235          NA          NA          NA          NA
+## [206]          NA          NA          NA          NA          NA
+## [211]          NA  0.49959326          NA          NA -0.29938635
+## [216]          NA  0.86120886          NA          NA  0.39883018
+## [221]          NA          NA          NA          NA          NA
+## [226]          NA  2.19494486          NA          NA          NA
+## [231]          NA          NA          NA          NA          NA
+## [236]          NA          NA          NA          NA          NA
+## [241]          NA          NA          NA          NA
+## 
+## $catMethod
+## [1] "quantiles"
+## 
+## $colourPalette
+## [1] "#D73027" "#FC8D59" "#FEE090" "#FFFFBF" "#E0F3F8" "#91BFDB" "#4575B4"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Analysis of simple correlation between Control of Corruption and
+  Natural Resource Dependence
+\end{enumerate}
+
+\begin{verbatim}
+## [1] "C:/Users/Natalia/Documents/GitHub/Third-Assignment"
+\end{verbatim}
+
+\section{Central Tendency Measures}\label{central-tendency-measures}
+
+\subsubsection{Corruption}\label{corruption}
+
+The mean for corruption is \textbf{\emph{NA}}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{verbatim}
+## $breaks
+##  [1] -2.0 -1.5 -1.0 -0.5  0.0  0.5  1.0  1.5  2.0  2.5  3.0
+## 
+## $counts
+##  [1]  10 179 294 253 154  76  79  58  65   4
+## 
+## $density
+##  [1] 0.017064846 0.305460751 0.501706485 0.431740614 0.262798635
+##  [6] 0.129692833 0.134812287 0.098976109 0.110921502 0.006825939
+## 
+## $mids
+##  [1] -1.75 -1.25 -0.75 -0.25  0.25  0.75  1.25  1.75  2.25  2.75
+## 
+## $xname
+## [1] "merged$corrupest"
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,"class")
+## [1] "histogram"
+\end{verbatim}
+
+\subsubsection{Oil Rents}\label{oil-rents}
+
+The mean for the oil rents to GDP is \textbf{\emph{6.5142073}}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{verbatim}
+## $breaks
+##  [1]  0  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80
+## 
+## $counts
+##  [1] 900  68  28  26  29  21  16  20  15  11   8  11  10   6   2   1
+## 
+## $density
+##  [1] 0.1535836177 0.0116040956 0.0047781570 0.0044368601 0.0049488055
+##  [6] 0.0035836177 0.0027303754 0.0034129693 0.0025597270 0.0018771331
+## [11] 0.0013651877 0.0018771331 0.0017064846 0.0010238908 0.0003412969
+## [16] 0.0001706485
+## 
+## $mids
+##  [1]  2.5  7.5 12.5 17.5 22.5 27.5 32.5 37.5 42.5 47.5 52.5 57.5 62.5 67.5
+## [15] 72.5 77.5
+## 
+## $xname
+## [1] "merged$oilrents"
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,"class")
+## [1] "histogram"
+\end{verbatim}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{verbatim}
+## $breaks
+##  [1]  0 10 20 30 40 50 60 70 80 90
+## 
+## $counts
+## [1] 761 152  77  55  55  33  28   8   3
+## 
+## $density
+## [1] 0.0649317406 0.0129692833 0.0065699659 0.0046928328 0.0046928328
+## [6] 0.0028156997 0.0023890785 0.0006825939 0.0002559727
+## 
+## $mids
+## [1]  5 15 25 35 45 55 65 75 85
+## 
+## $xname
+## [1] "merged$totrents"
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,"class")
+## [1] "histogram"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Chart 1 - Total rents vs Corruptest}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \NormalTok{merged, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{corrupest,}
+        \DataTypeTok{y =} \NormalTok{totrents)) +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{(}\DataTypeTok{base_size =} \DecValTok{13}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Chart 2 - Total rents vs Corruptest with smoothed trend line}
+\NormalTok{ggplot2::}\KeywordTok{ggplot}\NormalTok{(merged, }\KeywordTok{aes}\NormalTok{(corrupest, totrents)) +}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## geom_smooth: method="auto" and size of largest group is >=1000, so using gam with formula: y ~ s(x, bs = "cs"). Use 'method = x' to change the smoothing method.
+\end{verbatim}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Chart 3 - Oil rents vs Corruptest with smoothed trend line}
+\NormalTok{ggplot2::}\KeywordTok{ggplot}\NormalTok{(merged, }\KeywordTok{aes}\NormalTok{(corrupest, oilrents)) +}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## geom_smooth: method="auto" and size of largest group is >=1000, so using gam with formula: y ~ s(x, bs = "cs"). Use 'method = x' to change the smoothing method.
+\end{verbatim}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-7-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Examine variables}
+\KeywordTok{summary} \NormalTok{(merged$totrents)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   1.151   5.022  12.840  16.870  89.220
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Examine Total Natural Resource Rents}
+\KeywordTok{summary} \NormalTok{(merged$totrents)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   1.151   5.022  12.840  16.870  89.220
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Create levels of Total Natural Rent}
+\NormalTok{merged$totrentgroup[merged$totrents <}\StringTok{ }\FloatTok{1.151}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{merged$totrentgroup[merged$totrents <}\StringTok{ }\FloatTok{1.151} \NormalTok{&}\StringTok{ }\NormalTok{merged$totrents <}\StringTok{ }\FloatTok{5.022}\NormalTok{] <-}\StringTok{ }\DecValTok{2}
+\NormalTok{merged$totrentgroup[merged$totrents <}\StringTok{ }\FloatTok{5.022} \NormalTok{&}\StringTok{ }\NormalTok{merged$totrents <}\StringTok{ }\FloatTok{12.840}\NormalTok{] <-}\StringTok{ }\DecValTok{3}
+\NormalTok{merged$totrentgroup[merged$totrents >}\StringTok{ }\FloatTok{12.840} \NormalTok{] <-}\StringTok{ }\DecValTok{4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   140.8   829.2  3407.0 10740.0 13980.0 86130.0
+\end{verbatim}
+
+\includegraphics{A3_Analysis_GABRIEL_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\end{document}

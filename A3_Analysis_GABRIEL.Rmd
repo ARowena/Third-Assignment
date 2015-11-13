@@ -1,89 +1,187 @@
 ---
 title: "A3_Analysis_GABRIEL"
-author: "Gabriel Tarriba"
+author: "Gabriel Tarriba and Natalia Alvarado"
 date: "November 12, 2015"
 output: html_document
 ---
+
+Governance around the World
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Set working directory
+getwd()
+try(setwd("/Users/Natalia/Documents/GitHub/Third-Assignment"), silent = TRUE)
+try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
+
+# Load necessary packages, if you do not have this packages installed we highly recommend it
+library(ggplot2)
+library(repmis)
+library(knitr)
+library(plm)
+library(Hmisc)
+library(ggplot2)
+library(RColorBrewer)
+# Load Data
+merged <- read.csv(file="MergedData.csv")
+
+
+
+
+library(rworldmap)
+world_corruption <- joinCountryData2Map(merged
+                             ,joinCode = "ISO2"
+                             ,nameJoinColumn = "iso2c"
+                             ,mapResolution = 'coarse')
+     
+colorpalette <- brewer.pal(7,'RdYlBu')
+world_gov <- mapCountryData(world_corruption, nameColumnToPlot='corrupest', mapTitle= 'Governance around the World',
+               colourPalette = colorpalette)
+print(world_gov)
+```
+
+
+
 1. Analysis of simple correlation between Control of Corruption and Natural Resource Dependence
 
-```{r setup, echo=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-full_data <- read.csv("MergedData.csv")
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Set working directory
+getwd()
+try(setwd("/Users/Natalia/Documents/GitHub/Third-Assignment"), silent = TRUE)
+try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
+# Load necessary packages, if you do not have this packages installed we highly recommend it
 library(ggplot2)
-library(devtools)
+library(repmis)
+library(knitr)
+library(plm)
+library(Hmisc)
+library(ggplot2)
 
-# Chart 1 - Histograms
-hist(full_data$corrupest, main = 'Corruption Control Score')
-hist(full_data$oilrents, main = 'Oil rents as a % of GDP')
-hist(full_data$totrents, main = 'Total natural rents as a % of GDP')
+# Load Data
+merged <- read.csv(file="MergedData.csv")
 
+#Set data as panel data
+merged <- plm.data(merged, index=c("iso2c", "year"))
+```
+
+# Central Tendency Measures
+
+### Corruption
+The mean for corruption is ***`r mean(merged$corruptest)`***
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+histcorruption <- hist(merged$corrupest,
+     col = "peachpuff",
+     border = "black",
+     prob = TRUE,
+     xlab = "Control of Corruption",
+     main = 'Corruption Control Histogram')
+lines(density(merged$corrupest),
+      lwd = 2,
+      col = "chocolate3")
+abline(v = mean(merged$corrupest), 
+       col = "royalblue", 
+       lwd = 2)
+abline(v = median(merged$corrupest),
+       col = "red",
+       lwd = 2)
+legend(x = "topright",
+	c("Density plot", "Mean", "Median"),
+	col = c("chocolate3", "royalblue", "red"),
+	lwd = c(2, 2, 2))
+print(histcorruption)
+```
+### Oil Rents
+The mean for the oil rents to GDP is ***`r mean(merged$oilrents)`***
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+histoilrents <- hist(merged$oilrents,
+     col = "peachpuff",
+     border = "black",
+     prob = TRUE,
+     xlab = "% of Oil Rents to GDP",
+     main = 'Oil Rents to GDP Histogram')
+lines(density(merged$oilrents),
+      lwd = 2,
+      col = "chocolate3")
+abline(v = mean(merged$oilrents), 
+       col = "royalblue", 
+       lwd = 2)
+abline(v = median(merged$oilrents),
+       col = "red",
+       lwd = 2)
+legend(x = "topright",
+	c("Density plot", "Mean", "Median"),
+	col = c("chocolate3", "royalblue", "red"),
+	lwd = c(2, 2, 2))
+print(histoilrents)
+```
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+histtotrents <- hist(merged$totrents,
+     col = "peachpuff",
+     border = "black",
+     prob = TRUE,
+     xlab = "% of Total Rents to GDP",
+     main = 'Total Natural Resources Rents to GDP Histogram')
+lines(density(merged$totrents),
+      lwd = 2,
+      col = "chocolate3")
+abline(v = mean(merged$totrents), 
+       col = "royalblue", 
+       lwd = 2)
+abline(v = median(merged$oilrents),
+       col = "red",
+       lwd = 2)
+legend(x = "topright",
+	c("Density plot", "Mean", "Median"),
+	col = c("chocolate3", "royalblue", "red"),
+	lwd = c(2, 2, 2))
+print(histtotrents)
+```
+```{r}
 # Chart 1 - Total rents vs Corruptest
-ggplot(data = full_data, aes(x = corrupest,
+ggplot(data = merged, aes(x = corrupest,
         y = totrents)) + geom_point() + theme_bw(base_size = 13)
 
 # Chart 2 - Total rents vs Corruptest with smoothed trend line
-ggplot2::ggplot(full_data, aes(corrupest, totrents)) +
+ggplot2::ggplot(merged, aes(corrupest, totrents)) +
     geom_point() + geom_smooth() + theme_bw()
 
 # Chart 3 - Oil rents vs Corruptest with smoothed trend line
-ggplot2::ggplot(full_data, aes(corrupest, oilrents)) +
+ggplot2::ggplot(merged, aes(corrupest, oilrents)) +
     geom_point() + geom_smooth() + theme_bw()
 
 # Examine variables
-summary (full_data$totrents)
+summary (merged$totrents)
 
 # Examine Total Natural Resource Rents
-summary (full_data$totrents)
+summary (merged$totrents)
 
 # Create levels of Total Natural Rent
-full_data$totrentgroup[full_data$totrents
-< 1.151] <- 1
-full_data$totrentgroup[full_data$totrents
->= 1.151 & full_data$totrents < 5.022] <- 2
-full_data$totrentgroup[full_data$totrents
->= 5.022 & full_data$totrents < 12.840] <- 3
-full_data$totrentgroup[full_data$totrents
-> 12.840 ] <- 4
+merged$totrentgroup[merged$totrents < 1.151] <- 1
+merged$totrentgroup[merged$totrents < 1.151 & merged$totrents < 5.022] <- 2
+merged$totrentgroup[merged$totrents < 5.022 & merged$totrents < 12.840] <- 3
+merged$totrentgroup[merged$totrents > 12.840 ] <- 4
+```
 
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Examine GDP per capita
-summary (full_data$gdppc)
+summary (merged$gdppc)
 
-# Create levels of GDP per capita Natural Rent
-full_data$gdppc[full_data$gdppc
+# Create levels of GDP per Capita
+merged$gdppc[merged$gdppc
 <829.2 ] <- 1
-full_data$gdppc[full_data$gdppc
->= 829.2 & full_data$gdppc < 10.740] <- 2
-full_data$gdppc[full_data$gdppc
->= 10.740 & full_data$gdppc < 13.890] <- 3
-full_data$gdppc[full_data$gdppc
+merged$gdppc[merged$gdppc
+>= 829.2 & merged$gdppc < 10.740] <- 2
+merged$gdppc[merged$gdppc
+>= 10.740 & merged$gdppc < 13.890] <- 3
+merged$gdppc[merged$gdppc
 >= 13980.0] <- 4
 
 
 # Try to get color chart
-ggplot(data = full_data, aes(corrupest, totrents)) + geom_point(aes(colour = gdppc)) +theme_bw()
-
+ggplot(data = merged, aes(corrupest, totrents)) + geom_point(aes(colour = gdppc)) +theme_bw()
 
 ```
 
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

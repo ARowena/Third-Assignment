@@ -50,7 +50,8 @@ Our collaborative research project seeks to provide an answer to the following q
 
 ### 2. Data preparation
 
-We plan to conduct analysis on data from all countries in the world for the last 20 years, because the existing empirical literature analyzes data prior to this period. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and a measure of dependence on natural resource rents as our explanatory variable of interest. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
+### 2.1 General plan
+We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. We have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance (see Shaxson -@shaxson and Ross -@ross2012oil). We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
 
 We want to be create indicators to run the following model:
 

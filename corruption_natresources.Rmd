@@ -42,18 +42,18 @@ str(merged)
 merged$X <- as.numeric(merged$X)
 
 ```
-##Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
+#Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 
-### 1. Introduction
+# 1. Introduction
 
 Our collaborative research project seeks to provide an answer to the following question: **How significant is the relationship between a country’s degree of dependence on natural resource rents and its corruption level?** In the 1990s and early 2000s, several scholars [see among others @leite1999, @sala2003, @pendergast2007 and @shaxson2007] identified this relationship and developed theories about the interplay of governance and the fiscal system to account for the "Natural Resource Curse" first identified by Sachs and Werner [-@sachs1995]. However, in light of the rapid economic development of many resource-dependent developing countries since the turn of the century [notably in sub-Saharan Africa, which is now the second fastest growing region in the world after Asia-Pacific - see @africa2014], it is worth revisiting this relationship. Could it be that in the current century the relationship between reliance on natural resource rents and corruption has been broken?. This is, in a nutshell, our motivation for this project.
 
-### 2. Data preparation
+# 2. Data preparation
 
-#### 2.1 General plan
+## 2.1 General plan
 We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. As for our key explanatory variable, we want to have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance [see among others @ross2012oil; @shaxson2007]. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
 
-#### 2.1 Data sources 
+## 2.1 Data sources 
 
 The data necessary for our empirical analysis is located in two sources, or rather two different research projects from the World Bank:
 
@@ -65,9 +65,9 @@ We need to collect data from these two sources and merge it.
 
 In [Assignment 2](https://github.com/natalia-alvara do/Second-Assignment) we also considered including in our analysis an indicator of prevalence of conflict, using data from the [UCDP/PRIO Armed Conflict Dataset](http://www.pcr.uu.se/research/ucdp/datasets/ucdp_prio_armed_conflict_dataset/). However, upon close inspection of the data we realized that it was not useful since it does not include information on the magnitude of conflicts -it is rather a list of all conflicts, the conflicting parties involved and the duration of the conflict.
 
-#### 2.2 Data gathering
+## 2.2 Data gathering
 
-##### 2.2.1 Data from the World Development Indicators (WDI)
+### 2.2.1 Data from the World Development Indicators (WDI)
 
 We gathered data directly from the **WDI** using the [WDI Package for R](https://cran.r-project.org/web/packages/WDI/WDI.pdf). This package enables us to automatically download WDI indicators using the World Bank's APIs. The following five variables were downloaded from the **WDI**:
 
@@ -81,7 +81,7 @@ We gathered data directly from the **WDI** using the [WDI Package for R](https:/
 
 - **Unemployment, total (% of total labor force) (modeled ILO estimate)** "Unemployment refers to the share of the labor force that is without work but available for and seeking employment". World Bank code: SL.UEM.TOTL.ZS
 
-##### 2.2.1 Data from the World Governance Indicators (WGI)
+### 2.2.1 Data from the World Governance Indicators (WGI)
 
 The dataset of the **WGI** consists of six aggregate indicators of governance: 
 - Voice and Accountability
@@ -95,7 +95,7 @@ In contrast with the **WDI**, for the **WGI** there was no API. Hence, the data 
 
 The variable **Control of Corruption** "reflects perceptions of the extent to which public power is exercised for private gain, including both petty and grand forms of corruption, as well as "capture" of the state by elites and private interests" [@wgi]. It is an estimate of governance, ranging from -2.5 (weak) to 2.5 (strong) governance performance.
 
-##### 2.2.1 Cleaning and merging the data
+### 2.2.1 Cleaning and merging the data
 
 Having downloaded the data from the **WGI** and **WDI**, we then proceeded to clean it by removing missing observations, standardizing country codes (the two datasets use different coding systems), transforming string variables into numeric variables, and other necessary transformations. Once we are done with the data preparation, we have a dataset with 1155 observations, corresponding to 165 countries and 7 years (2005 to 2011).
 
@@ -103,7 +103,7 @@ We saved the resulting dataset as a CSV file under the name [MergedData.csv](htt
 
 With this dataset, we can explore the relationship between **Control of Corruption** and three possible dependent variables (**Total natural resource rents**, **Oil rents** and **Natural gas rents**).
 
-## 3. Descriptive statistics
+# 3. Descriptive and inferential statistics
 
 Before starting with our analysis, we want to examine and describe the key variables.
 
@@ -121,18 +121,16 @@ $$Corruption^*_{it} = \beta_1 NaturalResourceRents^*_{it} + \beta_2 GDPpercapita
 
 ```
 
-## 2.3 Descriptive Statistics
+## 4. Limitations of our data
 
-Before conducting our analysis we want to characterize our data, in particular our dependent variable *Corruption* and our interest explanatory variables *Total Natural Resource Rents* and *Oil Rents*.
+Before conducting our analysis we want to characterize our data, in particular our dependent variable *Corruption* and our interest explanatory variables *Total Natural Resource Rents* and *Oil Rents*. 
+
 
 ```{r, echo=FALSE}
 
 ```
 
-
-
-
-## 2.4 Inferencial Statistics
+## 5. Next steps
 
 ### Corruption over time
 ```{R, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
@@ -182,8 +180,6 @@ $$NaturalResourceRents^*_{it} = NaturalResourceRents_it - \overline {NaturalReso
 $$GDPpercapita^*_{it} = GDPpercapita_{it} - \overline {GDPpercapita_i}$$
 $$ArmedConflict^*_{it} = ArmedConflict_{it} - \overline {ArmedConflict_i}$$
 $$Unemployment^*_{it} = Unemployment_{it} - \overline {Unemployment_i}$$
-
-
 
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 data("Wages")

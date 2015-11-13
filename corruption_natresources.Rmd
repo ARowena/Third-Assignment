@@ -42,7 +42,7 @@ str(merged)
 merged$X <- as.numeric(merged$X)
 
 ```
-#Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
+# Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 
 # 1. Introduction
 
@@ -197,10 +197,8 @@ type='html'
 
 
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Create list of packages
-PackagesUsed <- c("knitr", "ggplot2", "repmis")
-# Load PackagesUsed and create .bib BibTeX file
-# Note must have repmis package installed.
+# Create list of packages and BibTex file for packages
+PackagesUsed <- c("ggplot2","repmis", "knitr", "plm", "Hmisc", "texreg", "bibtex", "rworldmap", "RColorBrewer")
 repmis::LoadandCite(PackagesUsed, file = "Packages.bib", install = FALSE)
 
 ```

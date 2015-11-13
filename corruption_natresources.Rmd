@@ -29,6 +29,8 @@ library(Hmisc)
 library(ggplot2)
 library(texreg)
 library(bibtex)
+library(rworldmap)
+library(RColorBrewer)
 
 # Load Data (generated from file 'corruption_dataset.R')
 merged <- read.csv(file="MergedData.csv")
@@ -49,15 +51,15 @@ Our collaborative research project seeks to provide an answer to the following q
 ### 2. Data preparation
 
 #### 2.1 General plan
-We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. We have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance [see @shaxson2007 and @ross2012oil ]. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
+We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. We have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance [see among others @ross2012oil; @shaxson2007]. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
 
 #### 2.1 Data sources 
 
 The data necessary for our empirical analysis is located in two sources, or rather two different research projects from the World Bank:
 
-- The [World Governance Indicators (WGI)](http://data.worldbank.org/data-catalog/worldwide-governance-indicators) of the World Bank, defined as "Aggregate and individual governance indicators for 215 countries and territories over the period 1996–2014, for six dimensions of governance" (@wgi).
-
 - The [World Development Indicators (WDI)](http://data.worldbank.org/data-catalog/world-development-indicators) also from the World Bank. This is "The primary World Bank collection of development indicators, compiled from officially-recognized international sources. It presents the most current and accurate global development data available, and includes national, regional and global estimates" (@wdi).
+
+- The [World Governance Indicators (WGI)](http://data.worldbank.org/data-catalog/worldwide-governance-indicators) of the World Bank, defined as "Aggregate and individual governance indicators for 215 countries and territories over the period 1996–2014, for six dimensions of governance" (@wgi).
 
 We need to collect data from these two sources and merge it.
 
@@ -65,21 +67,35 @@ In [Assignment 2](https://github.com/natalia-alvara do/Second-Assignment) we als
 
 #### 2.2 Data gathering
 
-##### 2.2.1 Data from the World Development Indicators
+##### 2.2.1 Data from the World Development Indicators (WDI)
 
-We gathered data directly from the **World Development Indicators (WDI)** using the [WDI Package for R](https://cran.r-project.org/web/packages/WDI/WDI.pdf). This package enables us to automatically download WDI indicators using the World Bank's APIs. The following five variables were downloaded from the **WDI**:
+We gathered data directly from the **WDI** using the [WDI Package for R](https://cran.r-project.org/web/packages/WDI/WDI.pdf). This package enables us to automatically download WDI indicators using the World Bank's APIs. The following five variables were downloaded from the **WDI**:
 
-- **Total natural resources rents (% of GDP)** - This is "the sum of oil rents, natural gas rents, coal rents (hard and soft), mineral rents, and forest rents" (@wdi). World Bank code: NY.GDP.TOTR.RT.ZS
+- **Total natural resources rents (% of GDP)** - This is "the sum of oil rents, natural gas rents, coal rents (hard and soft), mineral rents, and forest rents". World Bank code: NY.GDP.TOTR.RT.ZS
 
-- **Oil rents (% of GDP)** - "Oil rents are the difference between the value of oil production at world prices and total costs of production" (@wdi). World Bank code: NY.GDP.PETR.RT.ZS
+- **Oil rents (% of GDP)** - "Oil rents are the difference between the value of oil production at world prices and total costs of production". World Bank code: NY.GDP.PETR.RT.ZS
 
-- **Natural gas rents (% of GDP)** - "Natural gas rents are the difference between the value of natural gas production at world prices and total costs of production" (@wdi). World Bank code: NY.GDP.NGAS.RT.ZS
+- **Natural gas rents (% of GDP)** - "Natural gas rents are the difference between the value of natural gas production at world prices and total costs of production". World Bank code: NY.GDP.NGAS.RT.ZS
 
-- **GDP per capita (constant 2005 US$)**  "GDP per capita is gross domestic product divided by midyear population. GDP is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in constant 2005 U.S. dollars" (@wdi). World Bank code NY.GDP.PCAP.KD.
+- **GDP per capita (constant 2005 US$)**  "GDP per capita is gross domestic product divided by midyear population. GDP is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in constant 2005 U.S. dollars". World Bank code NY.GDP.PCAP.KD.
 
-- **Unemployment, total (% of total labor force) (modeled ILO estimate)** "Unemployment refers to the share of the labor force that is without work but available for and seeking employment" (@wdi). World Bank code: SL.UEM.TOTL.ZS
+- **Unemployment, total (% of total labor force) (modeled ILO estimate)** "Unemployment refers to the share of the labor force that is without work but available for and seeking employment". World Bank code: SL.UEM.TOTL.ZS
 
+##### 2.2.1 Data from the World Governance Indicators (WGI)
 
+The dataset of the **WGI** consists of six aggregate indicators of governance: 
+- Voice and Accountability
+- Political Stability and Absence of Violence/Terrorism
+- Government Effectiveness
+- Regulatory Quality
+- Rule of Law
+- Control of Corruption
+
+We are only interested in the Control of Corruption estimate, because we want it to be our dependent variable. We don't need the other variables so we only download Control of Corruption. The estimates begin in 1996 and end in 2014. The [entire WGI dataset](http://data.worldbank.org/data-catalog/worldwide-governance-indicators)) is available as a CSV file. Please refer to our [Analysis file](https://github.com/natalia-alvarado/Third-Assignment/blob/master/corruption_dataset.R) for more details on how the data was downloaded and cleaned up.
+
+##### 2.2.1 Cleaning and merging the data
+
+Having downloaded the data from the **WGI** and **WDI**, we then proceeded to clean it by removing missing observations, standardizing country codes (the two datasets use different coding systems), transforming string variables into numeric variables, and other necessary transformations. Once we are done with the data preparation, we have a dataset with 1172 observations 
 
 We want to be create indicators to run the following model:
 

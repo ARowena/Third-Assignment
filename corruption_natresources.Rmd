@@ -3,15 +3,15 @@ title: "Collaborative Research Project - Assignment 3"
 author: "N. Alvarado and G. Tarriba"
 date: "13 November 2015"
 output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: no
   html_document:
     fig_caption: yes
     number_sections: no
-  pdf_document:
-    fig_caption: yes
-    number_sections: yes
 bibliography:
-    - Packages.bib
-    - Bibliography_A3.bib
+- Packages.bib
+- Bibliography_A3.bib
 ---
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 
@@ -51,7 +51,7 @@ Our collaborative research project seeks to provide an answer to the following q
 ### 2. Data preparation
 
 #### 2.1 General plan
-We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. We have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance [see among others @ross2012oil; @shaxson2007]. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
+We seek to collect and analyze data on corruption and natural resource rents for all countries in the world for the last 20 years, because the existing empirical literature covers the previous years. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and measures of dependence on natural resource rents as our explanatory variables of interest. As for our key explanatory variable, we want to have both *Total Natural Resource Rents* and *Oil Rents*. We want to examine oil separately because there is significant empirical evidence that oil rents have a particularly detrimental effect on governance [see among others @ross2012oil; @shaxson2007]. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
 
 #### 2.1 Data sources 
 
@@ -91,11 +91,21 @@ The dataset of the **WGI** consists of six aggregate indicators of governance:
 - Rule of Law
 - Control of Corruption
 
-We are only interested in the Control of Corruption estimate, because we want it to be our dependent variable. We don't need the other variables so we only download Control of Corruption. The estimates begin in 1996 and end in 2014. The [entire WGI dataset](http://data.worldbank.org/data-catalog/worldwide-governance-indicators)) is available as a CSV file. Please refer to our [Analysis file](https://github.com/natalia-alvarado/Third-Assignment/blob/master/corruption_dataset.R) for more details on how the data was downloaded and cleaned up.
+In contrast with the **WDI**, for the **WGI** there was no API. Hence, the data was automatically downloaded as a .XLSX file and then imported into R. We are only interested in the Control of Corruption estimate, because we want it to be our dependent variable. We don't need the other variables so we only keep Control of Corruption. The estimates begin in 1996 and end in 2014. The [entire WGI dataset](http://data.worldbank.org/data-catalog/worldwide-governance-indicators)) is available as a CSV file. Please refer to our [Analysis file](https://github.com/natalia-alvarado/Third-Assignment/blob/master/corruption_dataset.R) for more details on how the data was downloaded and cleaned up.
+
+The variable **Control of Corruption** "reflects perceptions of the extent to which public power is exercised for private gain, including both petty and grand forms of corruption, as well as "capture" of the state by elites and private interests" [@wgi]. It is an estimate of governance, ranging from -2.5 (weak) to 2.5 (strong) governance performance.
 
 ##### 2.2.1 Cleaning and merging the data
 
-Having downloaded the data from the **WGI** and **WDI**, we then proceeded to clean it by removing missing observations, standardizing country codes (the two datasets use different coding systems), transforming string variables into numeric variables, and other necessary transformations. Once we are done with the data preparation, we have a dataset with 1172 observations 
+Having downloaded the data from the **WGI** and **WDI**, we then proceeded to clean it by removing missing observations, standardizing country codes (the two datasets use different coding systems), transforming string variables into numeric variables, and other necessary transformations. Once we are done with the data preparation, we have a dataset with 1155 observations, corresponding to 165 countries and 7 years (2005 to 2011).
+
+We saved the resulting dataset as a CSV file under the name [MergedData.csv](https://github.com/natalia-alvarado/Third-Assignment/blob/master/MergedData.csv).
+
+With this dataset, we can explore the relationship between **Control of Corruption** and three possible dependent variables (**Total natural resource rents**, **Oil rents** and **Natural gas rents**).
+
+## 3. Descriptive statistics
+
+Before starting with our analysis, we want to examine and describe the key variables.
 
 We want to be create indicators to run the following model:
 
@@ -105,7 +115,7 @@ $$Corruption^*_{it} = \beta_1 NaturalResourceRents^*_{it} + \beta_2 GDPpercapita
 
 ```
 
-- For the **World Governance Indicators** there was no API. Hence, the data was automatically downloaded as a .XLSX file and then imported into R.
+
 
 ```{r, echo=FALSE}
 
@@ -175,7 +185,7 @@ $$Unemployment^*_{it} = Unemployment_{it} - \overline {Unemployment_i}$$
 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 data("Wages")
 ?Wages
 summary(Wages)
@@ -190,7 +200,7 @@ type='html'
 ```
 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Create list of packages
 PackagesUsed <- c("knitr", "ggplot2", "repmis")
 # Load PackagesUsed and create .bib BibTeX file

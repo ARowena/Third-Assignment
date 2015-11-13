@@ -2,23 +2,37 @@
 title: "Collaborative Research Project - Assignment 3"
 author: "N. Alvarado and G. Tarriba"
 date: "13 November 2015"
-output: html_document
+output: 
+  html_document:
+    fig_caption: yes
+    number_sections: no
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+  bibliography:
+    - Packages.bib
+    - Bibliography_A3.bib
+  
 runtime: shiny
 ---
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Set working directory
+
+# Set working directory, ensuring that code runs on either of our computers
 getwd()
 try(setwd("/Users/Natalia/Documents/GitHub/Third-Assignment"), silent = TRUE)
 try(setwd("/Users/Gabriel/Desktop/Third-Assignment"), silent = TRUE)
 
-# Load necessary packages, if you do not have this packages installed we highly recommend it
+# Load necessary packages, if you do not have these packages installed we highly recommend them
 library(ggplot2)
 library(repmis)
 library(knitr)
 library(plm)
 library(Hmisc)
 library(ggplot2)
-# Load Data
+library(texreg)
+library(bibtex)
+
+# Load Data (generated from file 'corruption_dataset.R')
 merged <- read.csv(file="MergedData.csv")
 
 # Check for nummerical variables 
@@ -28,13 +42,13 @@ str(merged)
 merged$X <- as.numeric(merged$X)
 
 ```
-#Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
+##Revisiting the natural resource curse: does the relationship between natural resource rents and corruption persist into the 21st Century? 
 
-## 1. Introduction
+### 1. Introduction
 
 Our collaborative research project seeks to provide an answer to the following question: how significant is the relationship between a country’s degree of dependence on natural resource rents and its corruption level? In the 1990s and early 2000s, several scholars (see among others @leite1999, @sala2003, @pendergast2007 and @shaxson2007) identified this relationship and developed theories to account for the "Natural Resource Curse" first identified by Sachs and Werner (-@sachs1995). However, in light of the rapid economic development of many resource-dependent developing countries since the turn of the century (notably in sub-Saharan Africa, which is now the second fastest growing region in the world after Asia-Pacific @africa2014), it is worth revisiting this relationship. Perhaps it is no longer the case that the reliance on natural resource rents impairs governance and facilitates corruption. 
 
-## 2. Data preparation
+### 2. Data preparation
 
 We plan to conduct analysis on data from all countries in the world for the last 20 years, because the existing empirical literature analyzes data prior to this period. As our research question suggests, we plan to use a *Corruption* indicator as our dependent variable and a measure of dependence on natural resource rents as our explanatory variable of interest. We also want to include control variables such as *GDP/GNI per capita* and *Unemployment*. These variables are included in similar empirical studies. Please see our [Assignment 2](https://github.com/natalia-alvarado/Second-Assignment) for more details on the variables to be included in our analysis, their conceptual definition and their operationalization.
 
@@ -140,5 +154,15 @@ confint(M1)
 labels <- c('')
 stargazer::stargazer(M1, M2, title='OLS regression of the Percentage of Wages Variation', digits=2, type='html', header = FALSE)
 type='html'
+```
+
+
+```{r}
+# Create list of packages
+PackagesUsed <- c("knitr", "ggplot2", "repmis")
+# Load PackagesUsed and create .bib BibTeX file
+# Note must have repmis package installed.
+repmis::LoadandCite(PackagesUsed, file = "Packages.bib", install = FALSE)
+
 ```
 

@@ -106,8 +106,7 @@ The graphical inspection suggests there is heterosckedastocity. For this reason,
 
 ### Pearson's correlation
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-cor(merged, use="complete.obs", method="kendall")
-rcorr(as.matrix(merged))
+
 
 ```
 

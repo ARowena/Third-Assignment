@@ -130,7 +130,7 @@ Before conducting our analysis we want to characterize our data, in particular o
 
 ```
 
-## 5. Next steps
+# 5. Next steps
 
 ### Corruption over time
 ```{R, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
@@ -205,3 +205,4 @@ repmis::LoadandCite(PackagesUsed, file = "Packages.bib", install = FALSE)
 
 ```
 
+# 6. References
